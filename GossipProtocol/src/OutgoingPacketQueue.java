@@ -1,9 +1,5 @@
 
-public class OutgoingPacketQueue  extends SynchronizedLinkedListQueue  {
-
-	public OutgoingPacketQueue() {
-		// TODO Auto-generated constructor stub
-		super();
-	}
+public class OutgoingPacketQueue extends SynchronizedPacketQueue
+{
 
 }

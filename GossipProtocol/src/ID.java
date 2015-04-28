@@ -1,213 +1,147 @@
 import java.security.SecureRandom;
 import java.util.Arrays;
-import java.util.Random;
 
-public class ID {
-	
-	/*
-	 * Caleb Wolfe
-	 * 
-	 *	This class will generate the ID's for the packets for the gossip protocol
-	 *
-	 *	Class variables:
-	 *		
-	 *		idLengthinbytes: 
-	 *				This is an int that will represent the length of the id 
-	 *		
-	 *		idQueue:
-	 *				This is a Linkedlist queue that will store all of the ids to be used for future use
-	 *
-	 *		maxQueueLength:
-	 *				This is an int that will represent that max number of ids that will be stored
-	 *
-	 *		queueLength:
-	 *				This is an int that will represent the current length of the queue
-	 *
-	 *		secureRandom:
-	 *				The is a SecureRandom type that will be used to generate the ids 
-	 *
-	 *		zeroId:
-	 *				This is an ID type that will serve as ....... *verify later*
-	 *
-	 *		id:
-	 *			This is a byte array, this will be the format of every id
-	 *
-	 *
-	 *		Constructors:
-	 *
-	 *			ID()
-	 *				This is a private constructor that will initialize most of the state
-	 *		
-	 *			ID(byte[] id)
-	 *				This constructor will intialized the instance variable id to the passed value
-	 *
-	 *
-	 *		Methods:
-	 *			
-	 *			public static ID idFactory()
-	 *			 	This method returns an ID of the proper format 
-	 *
-	 *			private static ID createZeroId()
-	 *				This is for varied sizes of id lengths
-	 *			
-	 *			public static void  generateID() 
-	 *				This will create new IDs		
-	 *			
-	 *			public static int getIDLength()
-	 *				This will return the length of an ID
-	 *
-	 * 			public static LinkedListQueue getQueue()
-	 * 				This will return the queue of IDs
-	 * 
-	 * 			public static int getMaxQueueLength()
-	 * 				This will return the max length of the queue
-	 * 
-	 * 			public static int getQueueLength()
-	 * 				This will return the current length of the queue
-	 * 
-	 *  		public static ID getZeroID()
-	 *				This will return an ID of all zeros 
-	 *
-	 *			public static setIDLength(int lengthInBytes)
-	 *				This will set the length of an ID
-	 *
-	 *			public static setMaxQueueLength(int lenght)	
-	 *				This will set the max length of the Queue
-	 *
-	 *			public byte[] getBytes()
-	 *				returns a byte array of the id 
-	 *			
-	 *			public boolean equals(Object other)
-	 *					This will verify if two objects values are equal
-	 *
-	 * 			public int hashCode()
-	 *					This will return the hascode of an abjects
-	 *
-	 *			public String toString()
-	 *					This will return a representation of an Object as hex values			
-	 *					
-	 *		
-	 *
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 */
-	
-	
-	
-	private static int idLengthinBytes;
+/*
+ * Zackary J, Caleb W, Tim H
+ * This class will act as the unique identifier that is used to identify the associated request 
+ * 
+ * Class Variables:
+ * private byte[] id - the byte array that represents the id
+ * private static int idLengthInBytes - the length of the id when it is in a byte array
+ * private static LinkedListQueue idQueue - the queue that holds all the created ids
+ * private static int maxQueueLength - the maximum number of ids put in the queue before they stop being produced
+ * private static int queueLength - the current amount of ids in the queue
+ * private static SecureRandom secureRandom - see java documentation
+ * private static ID zeroID - an id in which the byte array is made entirely of zeroes
+ * 
+ * Constructors 
+ * ID(byte[] byteArray) - the only constructor, it takes a byte array that it sets the id to
+ *  
+ * Methods
+ * ID idFactory() - a static method that creates arrays of bytes using SecureRandom
+ * ID createZeroID() - creates the zero id using the the number of bytes as the length
+ * void generateID() - calls idFactory and enqueues the return
+ * int getIDLength() - returns the id length
+ * LinkedListQueue getQueue() - returns the queue
+ * int getMaxQueueLength() - returns the maximum length the queue can be
+ * ID getZeroID() - returns a clone of the zero id
+ * void setIDLength(int lengthInBytes) - sets the length of the id, removes all from queue and creates new zero id
+ * void setMaxQueueLength(int length) -  sets te maximum, removes all from the queue
+ * byte[] getBytes() - returns the byte array of the id
+ * boolean equals(Object other) - checks if the array of bytes is the same as the one it is compared to and returns boolean
+ * int hashCode() - returns Arrays.hashcode of the byte array
+ * String toString - 
+ * 
+ */
+
+public class ID 
+{
+	private byte[] id;
+	private static int idLengthInBytes = 16; //Default option chosen arbitrarily
 	private static LinkedListQueue idQueue;
 	private static int maxQueueLength;
 	private static int queueLength;
 	private static SecureRandom secureRandom;
-	private static ID zeroID;
-	private byte[] id;
+	private static ID zeroID;	
 	
-	private ID ()
-	{
-		this.idQueue = new LinkedListQueue();
-		this.secureRandom = new SecureRandom();
-		this.maxQueueLength = 1000;
-		
+	private ID()
+	{		
+		idQueue = new LinkedListQueue();
+		secureRandom = new SecureRandom();
+		maxQueueLength = 1000;
+		createZeroID();
 	}
-	
-	public ID (byte[] id)
+	public ID(byte[] byteArray)
 	{
 		this();
-		if(id == null)
-		{
-			throw new IllegalArgumentException("Byte array is null");
-		}
-		this.id = id.clone();
-		this.idLengthinBytes = this.id.length;
-	 
+		idLengthInBytes = byteArray.length;
 		
 	}
-
 	public static ID idFactory()
 	{
-		byte[] array = new byte[idLengthinBytes];
+		ID create;
+		byte[] array  = new byte[idLengthInBytes];
 		
 		secureRandom.nextBytes(array);
-		return new ID(array);
 		
+		create = new ID(array);
+		
+		return create;
 	}
-	
+	private static ID createZeroID()
+	{
+		byte[] array  = new byte[idLengthInBytes];
+		
+		ID newID = new ID(array);
+		
+		return newID;
+	}
 	public static void generateID()
 	{
 		idQueue.enQueue(ID.idFactory());
-		queueLength++;
+		ID.queueLength++;
+		
 	}
-	
-	
-	private static ID createZeroID()
+	public static int getIDLength()
 	{
-	
-		zeroID = new ID(new byte[idLengthinBytes]);
-		return zeroID;
+		return idLengthInBytes;
 	}
-	
+	private static LinkedListQueue getQueue()
+	{
+		return ID.idQueue;
+	}
 	public static int getMaxQueueLength()
 	{
 		return maxQueueLength;
 	}
-	
 	public static int getQueueLength()
 	{
 		return queueLength;
 	}
-	
-	public static int getIdLength()
+	public static ID getZeroID()
 	{
-		return idLengthinBytes;
+		return zeroID;
 	}
-	
-	public static void setIDlength(int lengthInBytes)
+	public static void setIDLength(int lengthInBytes)
 	{
-		idLengthinBytes = lengthInBytes;
+		idLengthInBytes = lengthInBytes;
 		idQueue.removeAll();
+		queueLength = 0;		
 		createZeroID();
-		queueLength = 0;
 	}
-	
 	public static void setMaxQueueLength(int length)
 	{
-		maxQueueLength = length;
+		maxQueueLength =length;
 		idQueue.removeAll();
 		queueLength = 0;
 	}
-	
 	public byte[] getBytes()
 	{
 		return this.id.clone();
 	}
-	
 	public boolean equals(Object other)
 	{
-		ID holder;
+	    ID holder;
 		
 		if(other == null)
-		{
-			return false;
-		}
-		if(!(other instanceof ID)){
-			return false;
-		}
-		
-		holder = (ID) other;
-		return Arrays.equals(holder.getBytes(), this.getBytes());
-	}
-	
+	    {
+	    	return false;
+	    }
+	    if(!(other instanceof ID))
+	    {
+	    	return false;
+	    }
+
+	    holder = (ID) other;
+	    
+	    return Arrays.equals(this.getBytes(), holder.getBytes());
+	 }
 	public int hashCode()
 	{
 		return Arrays.hashCode(id);
 	}
-	
 	public String toString()
 	{
-		
-		return  id.toString();
+		return "Still need to do";
 	}
 }
