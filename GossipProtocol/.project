@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>GossipProtocol</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>src/DatagramSenderReciever.java</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/Google%20Drive/Spring%202015/370%20networking/GossipProtrocol/DatagramSenderReciever.java</locationURI>
+		</link>
+		<link>
+			<name>src/LinkedListQueue.java</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/Google%20Drive/Spring%202015/370%20networking/GossipProtrocol/LinkedListQueue.java</locationURI>
+		</link>
+		<link>
+			<name>src/QueueUnderflowException.java</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/Google%20Drive/Spring%202015/370%20networking/GossipProtrocol/QueueUnderflowException.java</locationURI>
+		</link>
+		<link>
+			<name>src/SynchronizedLinkedListQueue.java</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/Google%20Drive/Spring%202015/370%20networking/GossipProtrocol/SynchronizedLinkedListQueue.java</locationURI>
+		</link>
+	</linkedResources>
+</projectDescription>
