@@ -44,12 +44,11 @@ public class ID
 	private static SecureRandom secureRandom;
 	private static ID zeroID;	
 	
-	private ID()
+	public ID()
 	{		
 		idQueue = new LinkedListQueue();
 		secureRandom = new SecureRandom();
 		maxQueueLength = 1000;
-		createZeroID();
 	}
 	public ID(byte[] byteArray)
 	{
@@ -99,8 +98,8 @@ public class ID
 		return queueLength;
 	}
 	public static ID getZeroID()
-	{
-		return zeroID;
+	{		
+		return createZeroID();
 	}
 	public static void setIDLength(int lengthInBytes)
 	{

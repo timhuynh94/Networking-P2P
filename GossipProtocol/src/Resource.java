@@ -20,22 +20,50 @@ public class Resource
 	 * 
 	 */
 	
+	
+	/*
+	 * This is going to have to follow a pattern so this operates assuming:
+	 * location
+	 * mimetype
+	 * description
+	 */
 	String description;
 	File location;
 	String mimeType;
 	ID resourceID;
 	
-	public Resource(String description, File location, String mimeType, ID resourceID)
+	public Resource(ID id, String data)
 	{
-		//If data is just this all together then lets just pass it all this
-		//Otherwise we could do something like make a method that does some of this automatically given a folder path
-		//However the description has to be person made likely
-		this.description = description;
-		this.location = location;
-		this.mimeType = mimeType;
-		this.resourceID = resourceID;
-		
+		//????Assuming that return is the delimeter
+		this(id,data,'\n');
 	}
+	public Resource(ID id, String data, char delimeter)
+	{
+		String locationString = "";
+		String mimeString = "";
+		String descriptionString = "";
+		
+		int fromHere = 0;
+		int toHere = data.indexOf(delimeter);
+		
+		locationString = data.substring(fromHere,toHere);
+		
+		fromHere = toHere + 1;
+		toHere = data.indexOf(delimeter, fromHere);		
+
+		mimeString = data.substring(fromHere,toHere);
+		
+		fromHere = toHere + 1;
+		
+		descriptionString = data.substring(fromHere,data.length());
+		
+		this.resourceID = id;
+		this.location = new File(locationString.trim());
+		this.mimeType = mimeString.trim();
+		this.description = descriptionString;
+
+	}
+	
 
 	public String getDescription() 
 	{
@@ -63,7 +91,8 @@ public class Resource
 	}
 	public boolean matches(String searchString)
 	{
-		//likely going to be a check to see if key phrases or something similar is in the string
+		//Just checking if the deescription contatins it
+		return description.contains(searchString);
 	}
 
 }
