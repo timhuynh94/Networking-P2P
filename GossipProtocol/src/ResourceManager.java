@@ -54,7 +54,7 @@ public class ResourceManager extends Responder
 	    		    * We will need to call the super to get what we need:
 	    		    * the two ids and the time to live of our message. Then we can probably give the responder (super)
 	    		    * the udp message that it can get the packets it needs to enque, then listen for any pull requests for x time
-	    		   */
+	    		    */
 	    		   udpMessage = new UDPMessage(id1,id2,ttl,message);
 	    		   
 	    	   }
@@ -67,12 +67,7 @@ public class ResourceManager extends Responder
 	         e.printStackTrace();
 	      }
 	    
-	    
-	    
-	    
-	    return bFile;
-		
-]
+
 	}
 
 }

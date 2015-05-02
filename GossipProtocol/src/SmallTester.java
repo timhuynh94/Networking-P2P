@@ -9,9 +9,7 @@ public class SmallTester
 {	
 	public static void main(String[] args) throws Exception 
 	{
-		String data;
-		data = "/Library/user/file.txt\ntxt\nIm a file ima file ima file";
-		Resource r = new Resource(ID.getZeroID(), data, '\n');
+		BuildMapFromList builder = new BuildMapFromList("/Users/zack/Desktop/List.txt");
 	}
 
 

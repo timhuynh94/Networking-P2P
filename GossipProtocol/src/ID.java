@@ -42,12 +42,16 @@ public class ID
 	private static int maxQueueLength;
 	private static int queueLength;
 	private static SecureRandom secureRandom;
-	private static ID zeroID;	
+	private static ID zeroID;
+	
+	static
+	{
+		ID.secureInitialization();
+	}
 	
 	public ID()
 	{		
 		idQueue = new LinkedListQueue();
-		secureRandom = new SecureRandom();
 		maxQueueLength = 1000;
 	}
 	public ID(byte[] byteArray)
@@ -58,12 +62,11 @@ public class ID
 	}
 	public static ID idFactory()
 	{
-		ID create;
 		byte[] array  = new byte[idLengthInBytes];
 		
 		secureRandom.nextBytes(array);
 		
-		create = new ID(array);
+		ID create = new ID(array);
 		
 		return create;
 	}
@@ -142,5 +145,9 @@ public class ID
 	public String toString()
 	{
 		return "Still need to do";
+	}
+	public static void secureInitialization()
+	{
+		secureRandom = new SecureRandom();
 	}
 }
